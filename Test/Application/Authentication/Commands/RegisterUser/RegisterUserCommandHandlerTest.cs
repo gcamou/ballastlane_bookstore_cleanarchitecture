@@ -33,7 +33,7 @@ public class RegisterUserCommandHandlerTest
         _mockRoleManager.Setup(x => x.RoleExistsAsync(It.IsAny<string>())).ReturnsAsync(true);
         _mockUserManager.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
             .ReturnsAsync(IdentityResult.Success);
-        _mockJwtTokenGenerator.Setup(x => x.GenerateToken(It.IsAny<ApplicationUser>()))
+        _mockJwtTokenGenerator.Setup(x => x.GenerateToken(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
             .Returns("mocked_token");
 
         // Act
@@ -101,7 +101,7 @@ public class RegisterUserCommandHandlerTest
         _mockRoleManager.Setup(x => x.RoleExistsAsync(It.IsAny<string>())).ReturnsAsync(true);
         _mockUserManager.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
             .ReturnsAsync(IdentityResult.Success);
-        _mockJwtTokenGenerator.Setup(x => x.GenerateToken(It.IsAny<ApplicationUser>()))
+        _mockJwtTokenGenerator.Setup(x => x.GenerateToken(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
             .Returns<string>(null);
 
         // Act

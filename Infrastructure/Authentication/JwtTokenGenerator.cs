@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Domain.Abstractions;
 using Domain.Entities.Identities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -15,19 +16,18 @@ public class JwtTokenGenerator : IJwtTokenGenerator
     {
         _options = options.Value;
     }
-    public string GenerateToken(ApplicationUser user)
+    public string GenerateToken(ApplicationUser user, string role)
     {
-        var tokenHandler = new JwtSecurityTokenHandler();
-
         var claims = new Claim[]
         {
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.Email, user.Email)
+            new(JwtRegisteredClaimNames.Email, user.Email),
+            new(ClaimTypes.Role, role)
         };
 
         var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(
-                    Encoding.ASCII.GetBytes(_options.SecretKey)),
+                    Encoding.UTF8.GetBytes(_options.SecretKey)),
                 SecurityAlgorithms.HmacSha256Signature);
 
         var token = new JwtSecurityToken(

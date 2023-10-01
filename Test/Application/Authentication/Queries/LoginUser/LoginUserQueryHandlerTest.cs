@@ -31,7 +31,7 @@ public class LoginUserQueryHandlerTest
         var user = new ApplicationUser { UserName = command.username };
         _mockUserManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
         _mockUserManager.Setup(x => x.CheckPasswordAsync(user, command.password)).ReturnsAsync(true);
-        _mockJwtTokenGenerator.Setup(x => x.GenerateToken(user)).Returns("mocked_token");
+        _mockJwtTokenGenerator.Setup(x => x.GenerateToken(user, "Manager")).Returns("mocked_token");
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);

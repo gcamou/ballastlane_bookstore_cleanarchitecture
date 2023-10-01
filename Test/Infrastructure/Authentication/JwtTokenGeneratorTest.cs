@@ -30,7 +30,7 @@ public class JwtTokenGeneratorTest
         };
 
         // Act
-        var token = jwtTokenGenerator.GenerateToken(user);
+        var token = jwtTokenGenerator.GenerateToken(user, "Manager");
 
         // Assert
         Assert.NotNull(token);
@@ -56,7 +56,7 @@ public class JwtTokenGeneratorTest
         };
 
         // Act
-        var token = jwtTokenGenerator.GenerateToken(user);
+        var token = jwtTokenGenerator.GenerateToken(user, "Manager");
 
         // Assert
         Assert.NotNull(token);
@@ -85,7 +85,7 @@ public class JwtTokenGeneratorTest
         };
 
         // Act
-        var token = jwtTokenGenerator.GenerateToken(user);
+        var token = jwtTokenGenerator.GenerateToken(user, "Manager");
 
         // Assert
         Assert.NotNull(token);

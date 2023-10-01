@@ -50,7 +50,7 @@ internal sealed class RegisterUserCommandHandler : IRequestHandler<RegisterUserC
 
         await _userManager.AddToRoleAsync(user, request.role);
 
-        var token = _jwtTokenGenerator.GenerateToken(user);
+        var token = _jwtTokenGenerator.GenerateToken(user, request.role);
 
         if (string.IsNullOrEmpty(token))
         {

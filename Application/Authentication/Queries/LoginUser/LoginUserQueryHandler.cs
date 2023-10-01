@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Domain.Core;
 using Domain.Core.Enum;
 using Domain.Abstractions;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace Application.Authentication.Queries.LoginUser;
 
@@ -37,7 +38,8 @@ internal sealed class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, St
 
             if (isPasswordValid)
             {
-                var token = _jwtTokenGenerator.GenerateToken(user);
+                var roles = await _userManager.GetRolesAsync(user);
+                var token = _jwtTokenGenerator.GenerateToken(user, roles.FirstOrDefault());
 
                 response.Message = string.Empty;
                 response.StatusCode = ResponseCode.Successful;

@@ -12,6 +12,7 @@ using Application.Books.Queries.GetBookByTitle;
 using Domain.Core.Enum;
 using Domain.Core.Constants;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 
 namespace Presentation.Controllers;
 
@@ -24,6 +25,7 @@ public sealed class BookController : ApiController
     }
 
     [HttpGet("title:string")]
+    [Authorize]
     [ProducesResponseType(typeof(BookResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -41,6 +43,7 @@ public sealed class BookController : ApiController
 
 
     [HttpGet("id:guid")]
+    [Authorize]
     [ProducesResponseType(typeof(BookResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -57,6 +60,7 @@ public sealed class BookController : ApiController
     }
 
     [HttpGet("all")]
+    [Authorize]
     [ProducesResponseType(typeof(IQueryable<Book>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
     {
@@ -68,7 +72,7 @@ public sealed class BookController : ApiController
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = "Administrator,Manager")]
     [ProducesResponseType(typeof(CreateBookResponse), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -92,6 +96,7 @@ public sealed class BookController : ApiController
     }
 
     [HttpPut]
+    [Authorize(Roles = "Administrator,Manager")]
     [ProducesResponseType(typeof(UpdateBookRequest), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -108,6 +113,7 @@ public sealed class BookController : ApiController
     }
 
     [HttpDelete("id:guid")]
+    [Authorize(Roles = "Manager")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
