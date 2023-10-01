@@ -24,6 +24,7 @@ public class LoginUserQueryHandlerTest
     public async Task Should_LoginUserSuccessfully()
     {
         // Arrange
+        var role = "role";
         var handler = new LoginUserQueryHandler(_mockUserManager.Object, _mockJwtTokenGenerator.Object);
 
         var command = new LoginUserQuery("username", "password");
@@ -31,7 +32,11 @@ public class LoginUserQueryHandlerTest
         var user = new ApplicationUser { UserName = command.username };
         _mockUserManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(user);
         _mockUserManager.Setup(x => x.CheckPasswordAsync(user, command.password)).ReturnsAsync(true);
-        _mockJwtTokenGenerator.Setup(x => x.GenerateToken(user, "Manager")).Returns("mocked_token");
+        _mockUserManager.Setup(x => x.GetRolesAsync(user)).ReturnsAsync(() => 
+        {
+            return new List<string>{ role };
+        });
+        _mockJwtTokenGenerator.Setup(x => x.GenerateToken(user, role)).Returns("mocked_token");
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);

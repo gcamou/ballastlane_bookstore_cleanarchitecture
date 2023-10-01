@@ -13,7 +13,9 @@ public class JwtTokenGeneratorTest
     [Fact]
     public void Should_Create_Token()
     {
-        var mockOptions = new Mock<IOptions<JwtOptions>>();
+        var mockOptions = new Mock<IOptions<JwtOptions>>();        
+        var role = "role";
+
         mockOptions.Setup(x => x.Value).Returns(new JwtOptions
         {
             SecretKey = "DocumentManagementKeySecretTemporal",
@@ -30,7 +32,7 @@ public class JwtTokenGeneratorTest
         };
 
         // Act
-        var token = jwtTokenGenerator.GenerateToken(user, "Manager");
+        var token = jwtTokenGenerator.GenerateToken(user, role);
 
         // Assert
         Assert.NotNull(token);
@@ -40,6 +42,7 @@ public class JwtTokenGeneratorTest
     public void Should_GenerateToken_Token_And_Return_Valid_Token()
     {
         // Arrange
+        var role = "role";
         var jwtOptions = new JwtOptions
         {
             SecretKey = "DocumentManagementKeySecretTemporal",
@@ -56,7 +59,7 @@ public class JwtTokenGeneratorTest
         };
 
         // Act
-        var token = jwtTokenGenerator.GenerateToken(user, "Manager");
+        var token = jwtTokenGenerator.GenerateToken(user, role);
 
         // Assert
         Assert.NotNull(token);
@@ -67,6 +70,7 @@ public class JwtTokenGeneratorTest
     public void Should_GenerateToken_Token_And_Return_Not_Valid_Token()
     {
         // Arrange
+        var role = "role";
         var jwtOptions = new JwtOptions
         {
             SecretKey = "DocumentManagementKeySecretTemporal",
@@ -85,7 +89,7 @@ public class JwtTokenGeneratorTest
         };
 
         // Act
-        var token = jwtTokenGenerator.GenerateToken(user, "Manager");
+        var token = jwtTokenGenerator.GenerateToken(user, role);
 
         // Assert
         Assert.NotNull(token);
